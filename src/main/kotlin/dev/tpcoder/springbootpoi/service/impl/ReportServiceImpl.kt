@@ -1,21 +1,29 @@
 package dev.tpcoder.springbootpoi.service.impl
 
 import dev.tpcoder.springbootpoi.model.enum.CustomCellStyle
+import dev.tpcoder.springbootpoi.repository.FoodSaleRepository
 import dev.tpcoder.springbootpoi.service.ReportService
+import dev.tpcoder.springbootpoi.util.ExcelHelper
 import dev.tpcoder.springbootpoi.util.StylesGenerator
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.ByteArrayOutputStream
+import java.lang.RuntimeException
 import java.math.BigDecimal
 import java.time.LocalDate
 
 @Service
-class ReportServiceImpl(private val stylesGenerator: StylesGenerator) : ReportService {
+class ReportServiceImpl(
+        private val foodSaleRepository: FoodSaleRepository,
+        private val stylesGenerator: StylesGenerator) : ReportService {
+
+    private val logger = LoggerFactory.getLogger(ReportServiceImpl::class.java)
 
     // For extension .xlsx
     override fun generateXlsxReport(): ByteArray {
@@ -23,7 +31,16 @@ class ReportServiceImpl(private val stylesGenerator: StylesGenerator) : ReportSe
         return generateReport(wb)
     }
 
-    fun isFileEmpty(file: MultipartFile): Boolean = file.isEmpty
+    override fun uploadReport(file: MultipartFile) {
+        logger.info("Upload report service call")
+        if (ExcelHelper.hasExcelFormat(file)) {
+            logger.info("Start excel to FoodSales...")
+            val foodSaleList = ExcelHelper.excelToFoodSale(file)
+            foodSaleRepository.saveAll(foodSaleList)
+        } else {
+            throw RuntimeException("Not excel format")
+        }
+    }
 
     private fun generateReport(wb: Workbook): ByteArray {
         val styles = stylesGenerator.prepareStyles(wb)
