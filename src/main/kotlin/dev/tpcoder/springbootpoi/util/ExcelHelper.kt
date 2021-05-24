@@ -38,38 +38,21 @@ object ExcelHelper {
                     rowNumber++
                     continue
                 }
-                var orderDate: LocalDate? = null
-                var region: String? = null
-                var city: String? = null
-                var category: String? = null
-                var product: String? = null
-                var quantity: Int? = null
-                var unitPrice: BigDecimal? = null
-                var totalPrice: BigDecimal? = null
 
+                val foodSale = FoodSale()
                 currentRow.forEach {
                     when (it.columnIndex) {
-                        0 -> orderDate = it.dateCellValue.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                        1 -> region = it.stringCellValue
-                        2 -> city = it.stringCellValue
-                        3 -> category = it.stringCellValue
-                        4 -> product = it.stringCellValue
-                        5 -> quantity = it.numericCellValue.toInt()
-                        6 -> unitPrice = BigDecimal(it.numericCellValue).setScale(2, RoundingMode.CEILING)
-                        7 -> totalPrice = BigDecimal(it.numericCellValue).setScale(2, RoundingMode.CEILING)
+                        0 -> foodSale.orderDate = it.dateCellValue.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                        1 -> foodSale.region = it.stringCellValue
+                        2 -> foodSale.city = it.stringCellValue
+                        3 -> foodSale.category = it.stringCellValue
+                        4 -> foodSale.product = it.stringCellValue
+                        5 -> foodSale.quantity = it.numericCellValue.toInt()
+                        6 -> foodSale.unitPrice = BigDecimal(it.numericCellValue).setScale(2, RoundingMode.CEILING)
+                        7 -> foodSale.totalPrice = BigDecimal(it.numericCellValue).setScale(2, RoundingMode.CEILING)
                     }
                 }
 
-                val foodSale = FoodSale(
-                        orderDate = orderDate,
-                        region = region,
-                        city = city,
-                        category = category,
-                        product = product,
-                        quantity = quantity,
-                        unitPrice = unitPrice,
-                        totalPrice = totalPrice
-                )
                 foodSaleList.add(foodSale)
             }
             workbook.close()
