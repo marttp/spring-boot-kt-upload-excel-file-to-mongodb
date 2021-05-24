@@ -18,22 +18,12 @@ class ReportController(private val reportService: ReportService) {
 
     private val logger = LoggerFactory.getLogger(ReportController::class.java)
 
-    // Do by own
+    // Upload excel file to MongoDB
     @PostMapping("/upload")
     fun uploadController(@RequestParam("file") file: MultipartFile): ResponseEntity<String> {
         logger.info("Upload excel file name: {}", file.originalFilename)
         reportService.uploadReport(file = file)
-        return ResponseEntity.ok("Test")
+        return ResponseEntity.ok("Upload excel file completed")
     }
 
-    // Sample of download excel file
-    @PostMapping("/xlsx")
-    fun generateXlsxReport(): ResponseEntity<ByteArray> {
-        logger.info("Generate sample excel report")
-        val report = reportService.generateXlsxReport()
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"${CommonConstant.REPORT_FILE_NAME}\"")
-                .body(report)
-    }
 }
