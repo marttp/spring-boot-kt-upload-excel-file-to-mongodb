@@ -1,5 +1,6 @@
 package dev.tpcoder.springbootpoi.controller
 
+import dev.tpcoder.springbootpoi.controller.FoodSaleController.Companion.BASE_FOOD_SALE_URL
 import dev.tpcoder.springbootpoi.service.FoodSaleService
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
@@ -11,10 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/food-sales")
+@RequestMapping(value = [BASE_FOOD_SALE_URL])
 class FoodSaleController(private val foodSaleService: FoodSaleService) {
 
     private val logger = LoggerFactory.getLogger(FoodSaleController::class.java)
+
+    companion object {
+        const val BASE_FOOD_SALE_URL: String = "/api/food-sales"
+    }
 
     @GetMapping
     fun getFoodSalesPage(
@@ -26,7 +31,7 @@ class FoodSaleController(private val foodSaleService: FoodSaleService) {
         val pageFoodSales = if (region.isNullOrEmpty()) {
             foodSaleService.getAllFoodSalesPagination(paging)
         } else {
-            foodSaleService.getFoodSalesPagination(region, paging)
+            foodSaleService.getFoodSalesWithRegionPagination(region, paging)
         }
         return ResponseEntity.ok(mapOf(
                 "items" to pageFoodSales.content,

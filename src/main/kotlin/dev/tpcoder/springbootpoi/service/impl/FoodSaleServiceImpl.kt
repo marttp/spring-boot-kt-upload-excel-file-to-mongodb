@@ -12,6 +12,6 @@ class FoodSaleServiceImpl(private val foodSaleRepository: FoodSaleRepository) : 
     override fun getAllFoodSalesPagination(pageable: Pageable): Page<FoodSale> =
             foodSaleRepository.findAll(pageable)
 
-    override fun getFoodSalesPagination(region: String?, pageable: Pageable): Page<FoodSale> =
+    override fun getFoodSalesWithRegionPagination(region: String?, pageable: Pageable): Page<FoodSale> =
             foodSaleRepository.findAllByRegionContainingIgnoreCase(region, pageable)
 }
