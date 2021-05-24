@@ -18,7 +18,7 @@ class FoodSaleController(private val foodSaleService: FoodSaleService) {
     private val logger = LoggerFactory.getLogger(FoodSaleController::class.java)
 
     companion object {
-        const val BASE_FOOD_SALE_URL: String = "/api/food-sales"
+        const val BASE_FOOD_SALE_URL: String = "/api/v1/food-sales"
     }
 
     @GetMapping

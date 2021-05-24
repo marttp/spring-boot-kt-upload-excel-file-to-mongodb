@@ -21,7 +21,7 @@ class ReportController(private val reportService: ReportService) {
     private val logger = LoggerFactory.getLogger(ReportController::class.java)
 
     companion object {
-        const val BASE_REPORT_URL: String = "/api/reports"
+        const val BASE_REPORT_URL: String = "/api/v1/reports"
     }
 
     // Upload excel file to MongoDB
