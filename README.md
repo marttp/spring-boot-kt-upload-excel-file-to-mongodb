@@ -5,4 +5,4 @@
 ถ้าอยากจะสนับสนุน สามารถ Donate ได้ผ่านทางช่องทางนี้เลยครับ
 
 ### Prompt Pay QR
-<img alt="Thanaphoom Babparn Promptpay QR Code cost 50 BAHT" src="./Thanaphoom-Babparn-PromptPayQR.jpg" width="400"/>
+<img alt="Thanaphoom Babparn Promptpay QR Code cost 50 BAHT" src="./Thanaphoom-Babparn-PromptPayQR.jpeg" width="400"/>
